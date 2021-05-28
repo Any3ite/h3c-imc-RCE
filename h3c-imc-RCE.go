@@ -12,16 +12,6 @@ import (
 )
 
 func main() {
-	defer func() {
-		err := recover()
-		switch err.(type) {
-		case runtime.Error:
-			fmt.Println("[X]---> 运行时错误！\t命令执行失败！")
-		default:
-			fmt.Println("[X]---> 未知错误！\t请检查源代码！")
-		}
-	}()
-
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
@@ -53,6 +43,7 @@ func main() {
 	}()
 	gread, _ := gzip.NewReader(do.Body)
 	ioread, err := ioutil.ReadAll(gread)
+	chkerr(err)
 	fmt.Printf("%s\n", ioread)
 }
 
